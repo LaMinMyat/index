@@ -15,29 +15,26 @@
   <p id="response"></p>
 
   <script>
-    const form = document.getElementById('myForm');
+    const form = document.getElementById('myForm'); 
+
     form.addEventListener('submit', function(e) {
       e.preventDefault();
 
-      const data = {
-        name: form.name.value,
-        email: form.email.value,
-        message: form.message.value
-      };
+      const formData = new FormData(form);
 
-      fetch('https://script.google.com/macros/s/AKfycbwzetVYd4CE4-LGDkJ_O48gMZrkOEOdJkT8EapBmEKVsqOqrO0pIqibC0PuLqb24tyXbA/exec', {
+      fetch("https://script.google.com/macros/s/AKfycbwzetVYd4CE4-LGDkJ_O48gMZrkOEOdJkT8EapBmEKVsqOqrO0pIqibC0PuLqb24tyXbA/exec", {
         method: 'POST',
-        body: JSON.stringify(data),
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      }).then(res => res.json())
-        .then(response => {
-          document.getElementById('response').innerText = "Submitted successfully!";
-          form.reset();
-        }).catch(err => {
-          document.getElementById('response').innerText = "Error submitting!";
-        });
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        document.getElementById('response').innerText = "Submitted successfully!";
+        form.reset();
+      })
+      .catch(error => {
+        document.getElementById('response').innerText = "Error submitting!";
+        console.error(error); // Optional for debugging
+      });
     });
   </script>
 </body>
