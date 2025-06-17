@@ -1,12 +1,44 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-Laminmyat is
+  <title>Submit to Google Sheet</title>
 </head>
-
 <body>
- Write your code here
-</body>
+  <h2>Submit Form</h2>
+  <form id="myForm">
+    <input type="text" name="name" placeholder="Name" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <textarea name="message" placeholder="Message" required></textarea><br>
+    <button type="submit">Submit</button>
+  </form>
 
+  <p id="response"></p>
+
+  <script>
+    const form = document.getElementById('myForm');
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const data = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+      };
+
+      fetch('https://script.google.com/macros/s/AKfycbwzetVYd4CE4-LGDkJ_O48gMZrkOEOdJkT8EapBmEKVsqOqrO0pIqibC0PuLqb24tyXbA/exec', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      }).then(res => res.json())
+        .then(response => {
+          document.getElementById('response').innerText = "Submitted successfully!";
+          form.reset();
+        }).catch(err => {
+          document.getElementById('response').innerText = "Error submitting!";
+        });
+    });
+  </script>
+</body>
 </html>
