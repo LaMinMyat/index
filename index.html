@@ -1,9 +1,27 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Submit to Google Sheet</title>
+  <title>Submit and View Sheet</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    input, textarea, button {
+      margin: 5px 0;
+      padding: 8px;
+      width: 100%;
+    }
+    iframe {
+      margin-top: 30px;
+      width: 100%;
+      height: 500px;
+      border: 1px solid #ccc;
+    }
+  </style>
 </head>
 <body>
+
   <h2>Submit Form</h2>
   <form id="myForm">
     <input type="text" name="name" placeholder="Name" required><br>
@@ -14,8 +32,13 @@
 
   <p id="response"></p>
 
+  <h3>Submitted Responses</h3>
+  <iframe 
+    src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQGjojHrSd_-CicoTC5hoNHkMAcgIJe7ycEmxsn4r_GR6jqkK8Qn2aINKtIgnrJYim6habmQjl-FjdC/pubhtml?widget=true&amp;headers=false">
+  </iframe>
+
   <script>
-    const form = document.getElementById('myForm'); // ✅ define the form here
+    const form = document.getElementById('myForm');
 
     form.addEventListener('submit', function(e) {
       e.preventDefault();
@@ -30,12 +53,16 @@
       .then(data => {
         document.getElementById('response').innerText = "Submitted successfully!";
         form.reset();
+        // Auto-refresh iframe
+        const iframe = document.querySelector("iframe");
+        iframe.src = iframe.src;
       })
       .catch(error => {
         document.getElementById('response').innerText = "Error submitting!";
-        console.error(error); // Optional for debugging
+        console.error(error);
       });
     });
   </script>
+
 </body>
 </html>
