@@ -38,35 +38,36 @@
   </iframe>
 
   <script>
+    const form = document.getElementById('myForm'); // ✅ form reference
+
     form.addEventListener('submit', function(e) {
-  e.preventDefault();
+      e.preventDefault();
 
-  const formData = {
-    name: form.name.value,
-    email: form.email.value,
-    message: form.message.value
-  };
+      const formData = {
+        name: form.name.value,
+        email: form.email.value,
+        message: form.message.value
+      };
 
-  fetch("https://script.google.com/macros/s/AKfycbynszJvwMAizJJvfU0CbGvRt1oBxmXmWfL1rgZ1zXFvy_4iiDWHTdec3OtEo7xJyqgj/exec", {
-    method: 'POST',
-    body: JSON.stringify(formData),
-    headers: {
-      'Content-Type': 'application/json'
-    }
-  })
-  .then(response => response.text())
-  .then(data => {
-    document.getElementById('response').innerText = "Submitted successfully!";
-    form.reset();
-    const iframe = document.querySelector("iframe");
-    iframe.src = iframe.src;
-  })
-  .catch(error => {
-    document.getElementById('response').innerText = "Error submitting!";
-    console.error(error);
-  });
-});
-
+      fetch("https://script.google.com/macros/s/AKfycbxwPgSzd5IC0L_1GOh5_SYpZwrs71BFCa-e9Uqj39gduuyPZPhZfT1c4u9ZIAPwAqMU/exec", {
+        method: 'POST',
+        body: JSON.stringify(formData),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        document.getElementById('response').innerText = "Submitted successfully!";
+        form.reset();
+        const iframe = document.querySelector("iframe");
+        iframe.src = iframe.src; // refresh iframe
+      })
+      .catch(error => {
+        document.getElementById('response').innerText = "Error submitting!";
+        console.error(error);
+      });
+    });
   </script>
 
 </body>
